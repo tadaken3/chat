@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"sync"
 	"text/template"
@@ -32,7 +33,7 @@ func main() {
 	flag.Parse()
 	gomniauth.SetSecurityKey("doraemon315")
 	gomniauth.WithProviders(
-		google.New("424841365323-hfmtug0okb7drhutpku2ie0sjv4rv3u0.apps.googleusercontent.com", "d2faci1amuBYUf8L1wvlQ_ZD", "http://localhost:8080/auth/callback/google"),
+		google.New(os.Getenv("GOOGLE_API_CLIENT"), os.Getenv("GOOGLE_API_SCRET"), "http://localhost:8080/auth/callback/google"),
 	)
 	r := newRoom()
 	http.Handle("/chat", MustAuth(&templateHandler{filename: "chat.html"}))
